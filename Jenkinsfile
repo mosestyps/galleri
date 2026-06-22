@@ -10,9 +10,16 @@ pipeline {
             steps {
                 echo 'Running npm install to setup modules...'
                 sh 'npm install'
+            
+            }
+        stage('test') {
+            steps {
+                echo 'Running automated tests...'
+                sh 'npm test'
             }
         }
-        stage('Environment Check') {
+        
+    stage('Environment Check') {
             steps {
                 echo 'Checking current Node version...'
                 sh 'node -v'
