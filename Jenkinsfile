@@ -21,7 +21,7 @@ pipeline {
         stage('Ship Application') {
             steps {
                 echo 'Notifying Render to start deployment...'
-                sh "curl -X POST 'YOUR_RENDER_DEPLOY_HOOK_URL'"
+                sh "curl -X POST 'https://api.render.com/deploy/srv-d8si6gu7r5hc73fhsog0?key=B4BrVgpIN1Q'"
             }
         }
     }
