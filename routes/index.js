@@ -5,10 +5,12 @@ let upload = require('./upload');
 let Image = require('../models/images'); // Make sure this path is correct
 
 router.get('/', (req, res) => {
-    Image.find({}, function(err, images) {
-        if (err) console.log(err);
-        res.render('index', { images: images, msg: req.query.msg });
-    });
+Image.find({}).then(images => {
+    res.render('index', { images: images, msg: req.query.msg });
+}).catch(err => {
+    console.log(err);
+    res.render('index', { images: [], msg: 'Error loading images' });
+});
 });
 
 router.post('/upload', (req, res) => {
