@@ -1,33 +1,40 @@
+
 pipeline {
-    agent any 
+    agent any
 
     tools {
-        nodejs 'NodeJS'
+        nodejs "nodejs"
     }
-
+   
     stages {
-        stage('Fetch Dependencies') {
+        stage('Cloning') {
             steps {
-                echo 'Running npm install to setup modules...'
+                git branch: 'master', url: 'https://github.com/mosestyps/galleri.git'
+            }
+        }
+
+        stage('Prepare Project') {
+            steps {
                 sh 'npm install'
-            } 
-        }
-        stage('test') {
-            steps {
-                echo 'Running automated tests...'
-                sh 'npm test'
             }
         }
-        stage('Environment Check') {
+
+        stage('Build') {
             steps {
-                echo 'Checking current Node version...'
-                sh 'node -v'
+                sh 'npm run build'
             }
         }
-        stage('Ship Application') {
+
+        stage('Tests') {
             steps {
-                echo 'Notifying Render to start deployment...'
-                sh "curl -X POST 'https://api.render.com/deploy/srv-d8si6gu7r5hc73fhsog0?key=B4BrVgpIN1Q'"
+                // npx mocha is for running your tests
+                sh 'npx mocha test'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh 'curl -X POST https://api.render.com/deploy/srv-d1at5r8dl3ps73e2mcsg?key=7h0NW4Ddv6Q'
             }
         }
     }
